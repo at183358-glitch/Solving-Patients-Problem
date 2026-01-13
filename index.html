@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dental Link Survey</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* --- كود الـ CSS الذي أرسلته --- */
+        .bg-overlay {
+            position: fixed; inset: 0; z-index: -1; background-color: #020617;
+            background-image: linear-gradient(rgba(0,0,0,0.05), rgba(0,0,0,0.05)), 
+            url("https://i.ibb.co/DftXbdBR/7a01717e6993a6b0831ff71d2b933d48.jpg");
+            background-repeat: no-repeat; background-size: cover; background-position: center center;
+        }
+        .bg-overlay::after {
+            content: ""; position: absolute; inset: 0;
+            background-image: url("https://st.depositphotos.com/1238677/2741/i/950/depositphotos_27417835-stock-photo-teeth-implants-and-dental-instruments.jpg");
+            opacity: 0.02; pointer-events: none;
+        }
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; font-family: 'Segoe UI', sans-serif; direction: rtl; overflow-x: hidden; }
+        .card { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(10px); border-radius: 30px; padding: 40px 30px; width: 288px; max-width: 90%; text-align: center; color: white; box-shadow: 0 20px 45px rgba(0,0,0,0.4); border: 1px solid rgba(255, 255, 255, 0.15); animation: fadeIn 0.8s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .icon { font-size: 65px; margin-bottom: 20px; animation: float 2s ease-in-out infinite; display: inline-block; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        button { background: linear-gradient(90deg, #0c4a6e, #0ea5e9); color: white; border: none; padding: 16px; border-radius: 15px; font-weight: bold; font-size: 1.1rem; cursor: pointer; width: 100%; margin-bottom: 10px; box-shadow: 0 8px 20px rgba(14,165,233,0.3); outline: none; }
+        .opt-btn { background: rgba(255, 255, 255, 0.1) !important; border: 1px solid rgba(255, 255, 255, 0.2) !important; color: white !important; margin: 10px 0 !important; box-shadow: none !important; }
+        .opt-btn:active { background: #0ea5e9 !important; transform: scale(0.96); }
+        .other-btn { background: linear-gradient(90deg, #94a3b8, #cbd5e1) !important; color: #1e293b !important; font-weight: 800 !important; }
+        .custom-input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid rgba(14, 165, 233, 0.5); background: rgba(0, 0, 0, 0.3); color: white; font-size: 1rem; margin-bottom: 15px; text-align: center; box-sizing: border-box; }
+        select.custom-input { appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: left 15px center; background-size: 15px; }
+        select option { background: #0f172a; color: white; }
+        .social-links { display: flex; gap: 15px; justify-content: center; margin-top: 25px; }
+        .social-btn { width: 55px; height: 55px; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-decoration: none; }
+        .whatsapp { background: #25D366 !important; } .instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%) !important; }
+        .back-link { background: none; text-decoration: underline; color: #bae6fd; font-size: 0.9rem; border: none; cursor: pointer; box-shadow: none; }
+        .developer { font-size: 13px; color: #bae6fd; margin-top: 20px; font-weight: bold; opacity: 0.8; }
+    </style>
+</head>
+<body ontouchstart="">
+    <div class="bg-overlay"></div>
+
+    <div class="container">
+        <div id="welcome-screen" class="card">
+            <div class="icon">🦷</div>
+            <h1>Solving Patients' Problem</h1>
+            <p>استبيان لحل مشكلة الطلاب بإيجاد المرضى</p>
+            <button onclick="startSurvey()">ابدأ الاستطلاع</button>
+            <div class="developer">Developed by: Omar Mohammed Monther Altali</div>
+        </div>
+
+        <div id="university-screen" class="card" style="display: none;">
+            <div class="icon">🏛️</div>
+            <h2>البيانات الأكاديمية</h2>
+            <p>اختر المحافظة والجامعة للمتابعة</p>
+            <select id="province-select" class="custom-input" onchange="updateUniversities()">
+                <option value="">اختر المحافظة</option>
+                <option value="damascus">دمشق وريفها</option>
+                <option value="aleppo">حلب</option>
+                <option value="homs">حمص</option>
+                <option value="hama">حماة</option>
+                <option value="latakia">اللاذقية</option>
+                <option value="tartus">طرطوس</option>
+                <option value="daraa">درعا</option>
+                <option value="deir_ezzor">دير الزور</option>
+                <option value="idlib">إدلب</option>
+            </select>
+            <select id="university-select" class="custom-input">
+                <option value="">اختر الجامعة</option>
+            </select>
+            <button onclick="submitAcademicData()" style="margin-top: 20px;">متابعة</button>
+            <button class="back-link" onclick="resetSurvey()">رجوع</button>
+        </div>
+
+        <div id="question-screen" class="card" style="display: none;">
+            <h2 id="question-number">السؤال الأول</h2>
+            <p id="question-text">جارٍ التحميل...</p>
+            <div id="options-container"></div>
+            <button class="back-link" onclick="goBack()">السابق</button>
+        </div>
+
+        <div id="suggestions-screen" class="card" style="display: none;">
+            <div class="icon">💡</div>
+            <h2>اقتراحاتكم</h2>
+            <textarea id="user-suggestion" class="custom-input" style="height: 100px; resize: none;"></textarea>
+            <button onclick="showFinishScreen()">الخطوة الأخيرة</button> 
+            <button class="back-link" onclick="goBackFromSuggestions()">رجوع</button>
+        </div>
+
+        <div id="finish-screen" class="card" style="display: none;">
+            <div class="icon">🤝</div>
+            <h2>شكراً لك!</h2>
+            <p style="font-weight: bold; color: #bae6fd;">"يداً بيد نقوى على حل مشاكلكم"</p>
+            <div id="initial-save-area">
+                <button onclick="showConfirm()" style="background: #10b981;">حفظ المعلومات</button>
+            </div>
+            <div id="confirm-area" style="display: none;">
+                <p>هل أنت متأكد؟</p>
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="saveData()" style="background: #10b981;">نعم</button>
+                    <button onclick="hideConfirm()" style="background: #ef4444;">لا</button>
+                </div>
+            </div>
+            <div class="social-links">
+                <a href="https://wa.me/963968558454" target="_blank" class="social-btn whatsapp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://instagram.com/3omaraltali" target="_blank" class="social-btn instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* --- كود الـ JavaScript الذي أرسلته --- */
+        const universityData = {"damascus": ["جامعة دمشق", "الجامعة السورية الخاصة (SPU)", "الجامعة العربية الدولية (AIU)", "الجامعة الدولية الخاصة للعلوم والتكنولوجيا (IUST)", "جامعة القلمون الخاصة", "جامعة الشام الخاصة", "جامعة قاسيون الخاصة", "جامعة الرشيد الدولية الخاصة", "جامعة أنطاكية السورية"], "aleppo": ["جامعة حلب", "جامعة إيبلا الخاصة", "جامعة الشهباء الخاصة", "جامعة قرطبة الخاصة"], "homs": ["جامعة البعث", "جامعة الحواش الخاصة", "جامعة الوادي الدولية"], "hama": ["جامعة حماة", "الجامعة الوطنية الخاصة", "الجامعة العربية الخاصة للعلوم والتكنولوجيا"], "latakia": ["جامعة تشرين", "جامعة المنارة الخاصة", "جامعة الشام الخاصة (فرع اللاذقية)"], "tartus": ["جامعة طرطوس", "جامعة الأندلس للعلوم الطبية"], "daraa": ["جامعة اليرموك الخاصة"], "deir_ezzor": ["جامعة الفرات", "جامعة الجزيرة الخاصة"], "idlib": ["جامعة إدلب", "جامعة ماري الخاصة", "جامعة الشمال الخاصة", "جامعة المعارف"]};
+        const questions = [
+            { text: "ما هو الاستنزاف الزمني الوسطي الذي تقضيه لتأمين حالة واحدة؟", options: ["يوم", "يومين", "أكثر من ثلاثة أيام", "أعتمد على الصدفة"] },
+            { text: "أي طريقة تجدها فعالة ومضمونة لإيجاد الحالة؟", options: ["مجموعات الفيسبوك", "حالات الواتساب", "سماسرة المرضى", "سؤال الأقارب"] },
+            { text: "ما هي المعلومة المفقودة التي ستوفر عليك الوقت؟", options: ["صور سريرية", "مكان السكن", "تاريخ الالتزام", "قدرته المادية"] },
+            { text: "أكبر تخوف يراودك من مريض السوشيال ميديا؟", options: ["عدم صدق الحالة", "إغلاق الهاتف", "طلب مبالغ مالية"] },
+            { text: "العائق اللوجستي الأول للمريض؟", options: ["بُعد المسافة", "تضارب الأوقات", "طول الانتظار"] },
+            { text: "الميزة الأهم في نظام ربط المرضى؟", options: ["ضمان الالتزام", "دقة التشخيص", "العثور على الحالة"] },
+            { text: "التكلفة المادية التقريبية لتأمين حالة صعبة؟", options: ["مبلغ بسيط", "مبلغ متوسط", "مبلغ كبير", "لا أدفع"] },
+            { text: "شعورك تجاه مجموعات الفيسبوك حالياً؟", options: ["تشتت وضياع وقت", "وسيلة بدائية", "أحتاج وسيلة منظمة"] },
+            { text: "المعيار الأهم في تقييم المريض؟", options: ["الالتزام", "التعاون", "الصدق"] },
+            { text: "الأداة المفقودة لتأمين الحالات أوتوماتيكياً؟", options: ["تطبيق مخصص", "قاعدة بيانات", "نظام حجز"] }
+        ];
+
+        let currentStep = 0; let userAnswers = {};
+
+        window.startSurvey = function() {
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('university-screen').style.display = 'block';
+        };
+
+        window.updateUniversities = function() {
+            const province = document.getElementById('province-select').value;
+            const uniSelect = document.getElementById('university-select');
+            uniSelect.innerHTML = '<option value="">اختر الجامعة</option>';
+            if (province && universityData[province]) {
+                universityData[province].forEach(uni => {
+                    const option = document.createElement('option');
+                    option.value = uni; option.text = uni; uniSelect.appendChild(option);
+                });
+            }
+        };
+
+        window.submitAcademicData = function() {
+            const provinceSelect = document.getElementById('province-select');
+            const university = document.getElementById('university-select').value;
+            if (provinceSelect.value === "" || university === "") { alert("يرجى اختيار المحافظة والجامعة"); return; }
+            userAnswers["province"] = provinceSelect.options[provinceSelect.selectedIndex].text;
+            userAnswers["university"] = university;
+            document.getElementById('university-screen').style.display = 'none';
+            document.getElementById('question-screen').style.display = 'block';
+            updateQuestionUI();
+        };
+
+        function updateQuestionUI() {
+            const q = questions[currentStep];
+            document.getElementById('question-text').innerText = q.text;
+            document.getElementById('question-number').innerText = `السؤال ${currentStep + 1}`;
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            q.options.forEach(opt => {
+                const btn = document.createElement('button'); btn.className = 'opt-btn'; btn.innerText = opt;
+                btn.onclick = () => { userAnswers[currentStep] = opt; setTimeout(nextQuestion, 150); };
+                container.appendChild(btn);
+            });
+        }
+
+        function nextQuestion() {
+            currentStep++;
+            if (currentStep < questions.length) updateQuestionUI();
+            else { document.getElementById('question-screen').style.display = 'none'; document.getElementById('suggestions-screen').style.display = 'block'; }
+        }
+
+        window.goBack = function() {
+            if (currentStep > 0) { currentStep--; updateQuestionUI(); }
+            else { document.getElementById('question-screen').style.display = 'none'; document.getElementById('university-screen').style.display = 'block'; }
+        };
+
+        window.showFinishScreen = function() {
+            userAnswers["suggestions"] = document.getElementById('user-suggestion').value;
+            document.getElementById('suggestions-screen').style.display = 'none';
+            document.getElementById('finish-screen').style.display = 'block';
+        };
+
+        window.showConfirm = function() {
+            document.getElementById('initial-save-area').style.display = 'none';
+            document.getElementById('confirm-area').style.display = 'block';
+        };
+
+        window.hideConfirm = function() {
+            document.getElementById('confirm-area').style.display = 'none';
+            document.getElementById('initial-save-area').style.display = 'block';
+        };
+
+        window.saveData = function() {
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbw4FrgH-ioPKB2lQdWcF3n0JTrm-lzMn7AiTLe9ewhFyqAS7GEsj4Jh9DnNWc8pbmsMVg/exec';
+            const saveBtn = document.querySelector('#confirm-area button');
+            saveBtn.innerText = "جاري الحفظ..."; saveBtn.disabled = true;
+
+            fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(userAnswers) })
+            .then(() => { alert("تم الحفظ بنجاح!"); location.reload(); })
+            .catch(() => { alert("خطأ!"); saveBtn.disabled = false; });
+        };
+
+        window.resetSurvey = function() { location.reload(); };
+    </script>
+</body>
+</html>
